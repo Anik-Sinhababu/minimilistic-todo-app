@@ -19,7 +19,7 @@ def add_bg_from_local(image_file):
     )
 
 
-add_bg_from_local("155543519_100525932082682_1473752294232492997_n_307569230974313.jpg")
+add_bg_from_local("pexels-oleksandr-pidvalnyi-1227513.jpg")
 
 todo_list = get_todos()
 
