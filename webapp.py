@@ -1,5 +1,27 @@
 import streamlit as st
 from functions import get_todos, write_todos
+import base64
+
+
+def add_bg_from_local(image_file):
+    with open(image_file, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+    st.markdown(
+        f"""
+    <style>
+    .stApp {{
+        background-image: url(data:image/{"png"};base64,{encoded_string.decode()});
+        background-size: cover
+    }}
+    </style>
+    """,
+        unsafe_allow_html=True
+    )
+
+
+add_bg_from_local("155543519_100525932082682_1473752294232492997_n_307569230974313.jpg")
+
+todo_list = get_todos()
 
 
 def add_todo():
@@ -9,13 +31,15 @@ def add_todo():
 
 
 st.title("Hello Everyone")
-st.subheader("This is a small web app named todo app list")
-st.write("my self anik and i hope you will like my todo app")
+st.subheader("This is a small web app named todo app list",)
+st.write("my self Anik and i hope you will like my todo app")
 
-todo_list = get_todos()
-for todo in todo_list:
-    st.checkbox(todo)
+for index, todo in enumerate(todo_list):
+    checkbox = st.checkbox(todo, key=todo)
+    if checkbox:
+        todo_list.pop(index)
+        write_todos(todo_list)
+        del st.session_state[todo]
+        st.experimental_rerun()
 
 st.text_input(label="Hey", placeholder="Add a new todo item....", on_change=add_todo, key='new_todo')
-
-
